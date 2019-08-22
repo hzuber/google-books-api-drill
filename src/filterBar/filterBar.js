@@ -9,6 +9,7 @@ class FilterBar extends Component {
             this.props.newBookType(value);
         }
     }
+    
     render() {
     return(
         <div className="filter-bar">

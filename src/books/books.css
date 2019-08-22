@@ -8,3 +8,7 @@ img{
     padding: 5px;
     align-self: center;
 }
+.book-text-column{
+    display: flex;
+    text-align: center;
+}

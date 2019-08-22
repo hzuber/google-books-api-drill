@@ -4,6 +4,7 @@ import Books from '../books/books.js';
 
 class BookList extends Component {
     render(){
+        console.log('bookList rendering')
         const books = this
             .props
             .books

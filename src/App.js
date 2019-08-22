@@ -8,75 +8,34 @@ class App extends Component {
     super(props);
     this.state = {
       books: [],
-      searchTerm: '',
-      printType: "All",
-      bookType: null,
       error: null
     }
-  }
-  componentDidMount() {
-    const url = 'https://www.googleapis.com/books/v1/volumes?q=henry';
-    const options = {
-      method: 'GET',
-      headers: {
-      "Content-type": "application/json"
-      }
-    }
-    fetch(url, options)
-      .then(res => {
-        if(!res.ok) {
-          throw new Error('Something went wrong, please try again later.')
-        }
-        return res;
-      })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data.items);
-        this.setState({
-          books: data.items,
-          error: null
-        })
-      })
-      .catch(err => {
-        this.setState({
-          error: err.message
-        });
-      });
+
+    this.updateBookList = this.updateBookList.bind(this);
   }
   
-  updateSearchTerm(term) {
+  updateBookList(data){
+    console.log('this is the data ' + data);
     this.setState({
-      searchTerm: term
+      books: data
+    }, () => {
+      console.log('books is updated');
     })
+    console.log('update book list' + this.state.books)
   }
 
-  updateBookType(option) {
-    this.setState({
-      bookType: option
-    })
+  render() {
+    return (
+      <main className='App'>
+        <Header 
+          updateList = {this.updateBookList}
+          error = {this.props.error}/>
+        <div className="error-div"><p>{this.state.error}</p></div>
+        <BookList 
+          books = {this.state.books}/>
+      </main>
+    );
   }
-
-  updatePrintType(option) {
-    this.setState({
-      printType: option
-    })
-  }
-    render() {
-      return (
-        <main className='App'>
-          <Header 
-            searchTerm = {this.state.searchTerm}
-            newSearch = {term => this.updateSearchTerm(term)}
-            filter = {this.state.filter}
-            printType = {this.state.printType}
-            newBookType = {option => this.updateBookType(option)}
-            newPrintType = {option => this.updatePrintType(option)}/>
-          <div className="error-div"><p>{this.state.error}</p></div>
-          <BookList 
-            books = {this.state.books}/>
-        </main>
-      );
-    }
 }
 
 export default App;
